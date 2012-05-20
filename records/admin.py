@@ -9,5 +9,5 @@ class BillAdmin(admin.ModelAdmin):
 class InvoiceAdmin(admin.ModelAdmin):
     pass
 
-admin.site.register(Bill, BillAdmin)
-admin.site.register(Invoice, InvoiceAdmin)
+# admin.site.register(Bill, BillAdmin)
+# admin.site.register(Invoice, InvoiceAdmin)

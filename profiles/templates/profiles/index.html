@@ -3,6 +3,20 @@
     </head>
 
     <body>
-        Stuff
+        <h1>{{ business.name }}</h1>
+
+        <h2>Bills:</h2>
+        <ul>
+            {% for bill in bills %}
+                <li>{{ bill }}<li>
+            {% endfor %}
+        </ul>
+
+        <h2>Invoices:</h2>
+        <ul>
+            {% for invoice in invoices %}
+                <li>{{ invoice }}<li>
+            {% endfor %}
+        </ul>
     </body>
 </html>

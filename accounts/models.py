@@ -2,5 +2,5 @@ from django.db import models
 
 
 class Account(models.Model):
-    user_id = models.IntegerField()
-    data = models.CharField(max_length=255)
+    business = models.ForeignKey('profiles.Business')
+    name = models.CharField(max_length=255)
