@@ -1,7 +1,7 @@
 from django import forms
 from django.conf import settings
 
-from profiles.models import ShardInfo
+from profiles.models import Business
 
 def shard_options():
     choices = [
@@ -18,13 +18,13 @@ def shard_options():
 _shard_options = shard_options()
 
 
-class ShardInfoModelForm(forms.ModelForm):
+class BusinessModelForm(forms.ModelForm):
 
     class Meta:
-        model = ShardInfo
+        model = Business
 
     def __init__(self, *args, **kwargs):
-        super(ShardInfoModelForm, self).__init__(*args, **kwargs)
+        super(BusinessModelForm, self).__init__(*args, **kwargs)
         self.fields['shard'] = forms.ChoiceField(choices=_shard_options)
 
 

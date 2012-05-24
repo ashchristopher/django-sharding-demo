@@ -1,0 +1,30 @@
+{% extends 'profiles/base.html' %}
+
+{% block content %}
+    <h1>DB Sharding</h1>
+    <div>
+        <form action='' method='post'>
+        </form>
+    </div>
+    
+    {% for shard in shards %}
+        <h2>logical-{{ shard }}</h2>
+        <ul id='{{ shard }}'>
+        
+        </ul>
+    {% endfor %}
+
+{% endblock content %}
+
+
+{% block extrajs %}
+    <script>
+        var business_ids = {{ business_ids|safe }};
+        var shards = {{ shards|safe }};
+
+        function random_item(input) {
+            var idx = Math.floor(Math.random() * input.length);
+            return input[idx];
+        }
+    </script>
+{% endblock %}
