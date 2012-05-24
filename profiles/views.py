@@ -1,9 +1,14 @@
+import random
+from decimal import Decimal
+
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 
 from profiles.models import Business
 from profiles.mixins import JSONResponseMixin
+from records.models import Record
+
 
 def _get_shards():
     shards = []
@@ -30,8 +35,27 @@ class MainView(TemplateView):
 class AjaxMainView(JSONResponseMixin, MainView):
     
     def post(self, request):
-        print request.POST
         context = {}
+        business_id = request.POST.get('business', None)
+        
+        if business_id:
+            business = get_object_or_404(Business, pk=business_id)
+            shard = business.shard
+
+            qty = random.randrange(0,10)
+            price = Decimal(str(random.uniform(0,10))[0:4])
+            rec_type = random.choice(['invoice', 'bill'])
+
+            Record.objects.using(shard).create(business=business, quantity=qty, amount=price, record_type=rec_type)
+
+            for shard in _shards:
+                records = Record.objects.using(shard).all()
+                json_data = [i.to_dict() for i in records]
+                context.update({
+                    shard : json_data,
+                })
+
+        print context
         return self.render_to_response(context) 
 
 
