@@ -3,14 +3,15 @@
 {% block content %}
     <h1>DB Sharding</h1>
     <div>
-        <form action='' method='post'>
+        <form id='main-form' action='{% url main-ajax %}' method='post'>
+            {% csrf_token %}
+            <input id='main-form-button' type='submit' value='Process'>
         </form>
     </div>
     
     {% for shard in shards %}
         <h2>logical-{{ shard }}</h2>
         <ul id='{{ shard }}'>
-        
         </ul>
     {% endfor %}
 
@@ -26,5 +27,21 @@
             var idx = Math.floor(Math.random() * input.length);
             return input[idx];
         }
+    </script>
+
+    <script>
+        var $form = $('#main-form');
+
+        $('#main-form-button').click(function(e){
+            console.log('clicked');
+            e.preventDefault();
+            $.ajax({
+                url: $form.attr('action'),
+                type: $form.attr('method'),
+                data: $form.serialize()
+            });
+        });
+
+        
     </script>
 {% endblock %}
