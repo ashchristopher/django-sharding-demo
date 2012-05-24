@@ -31,17 +31,18 @@
 
     <script>
         var $form = $('#main-form');
+        var $business_input = $('#id-business');
 
         $('#main-form-button').click(function(e){
-            console.log('clicked');
             e.preventDefault();
+            var business_id = random_item(business_ids);
+            console.log('clicked' + business_id);
             $.ajax({
                 url: $form.attr('action'),
                 type: $form.attr('method'),
-                data: $form.serialize()
+                data: $form.serialize() + "&business=" + business_id
             });
         });
 
-        
     </script>
 {% endblock %}

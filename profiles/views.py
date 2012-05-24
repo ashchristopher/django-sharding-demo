@@ -30,6 +30,7 @@ class MainView(TemplateView):
 class AjaxMainView(JSONResponseMixin, MainView):
     
     def post(self, request):
+        print request.POST
         context = {}
         return self.render_to_response(context) 
 
