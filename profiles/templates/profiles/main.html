@@ -10,9 +10,12 @@
     </div>
     
     {% for shard in shards %}
-        <h2>logical-{{ shard }}</h2>
-        <ul id='{{ shard }}'>
-        </ul>
+        <div class='shard-info'>
+            <h2 id='title-{{ shard }}' >logical-{{ shard }}</h2>
+            <a href='{% url info shard %}' class='toggle-info small'>Show More</a>
+            <div id='{{ shard }}'>
+            </div>
+        </div>
     {% endfor %}
 
 {% endblock content %}
@@ -32,17 +35,33 @@
     <script>
         var $form = $('#main-form');
         var $business_input = $('#id-business');
-
+        var the_data;
         $('#main-form-button').click(function(e){
             e.preventDefault();
             var business_id = random_item(business_ids);
-            console.log('clicked' + business_id);
             $.ajax({
                 url: $form.attr('action'),
                 type: $form.attr('method'),
-                data: $form.serialize() + "&business=" + business_id
+                data: $form.serialize() + "&business=" + business_id,
+                success: function(data, textStatus, jqXHR) {
+                    for (key in data) {
+                        var count = data[key];
+                        $('#title-' + key).html('logical-' + key + ": " + count);
+                    }
+                }
             });
         });
+
+        $('.toggle-info').click(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: e.target.href,
+                type: 'get',
+                success: function(data, textStatus, jqXHR) {
+                    console.log('loaded');
+                }
+            });
+        })
 
     </script>
 {% endblock %}

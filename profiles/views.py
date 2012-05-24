@@ -49,15 +49,24 @@ class AjaxMainView(JSONResponseMixin, MainView):
             Record.objects.using(shard).create(business=business, quantity=qty, amount=price, record_type=rec_type)
 
             for shard in _shards:
-                records = Record.objects.using(shard).all()
-                json_data = [i.to_dict() for i in records]
                 context.update({
-                    shard : json_data,
+                    shard : Record.objects.using(shard).all().count(),
                 })
 
-        print context
         return self.render_to_response(context) 
 
+
+class InfoAjaxView(TemplateView):
+    template_name = 'profiles/shard_info.html'
+
+    def get(self, request, shard_id):
+        recs = Record.objects.using(shard_id).all()
+        
+        context = {
+            'shard_records' : [1,2],
+        }
+
+        return self.render_to_response(context)
 
 class BusinessView(TemplateView):
     template_name = 'profiles/business.html'
