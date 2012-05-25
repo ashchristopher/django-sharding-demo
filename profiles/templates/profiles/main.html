@@ -39,6 +39,13 @@
         var timer;
         var timer_active = false;
 
+        var r = Raphael(200, 0, 1024, 768);
+        // Creates pie chart at with center at 320, 200,
+        // radius 100 and data: [55, 20, 13, 32, 5, 1, 2]
+        // r.piechart(600, 100, 75, [55, 20, 13, 32, 5, 1, 2]);
+
+
+
         function process_record() {
             console.log('processing record');
             var business_id = random_item(business_ids);
@@ -47,10 +54,14 @@
                 type: $form.attr('method'),
                 data: $form.serialize() + "&business=" + business_id,
                 success: function(data, textStatus, jqXHR) {
+                    var stuff = [];
                     for (key in data) {
                         var count = data[key];
                         $('#title-' + key).html('logical-' + key + ": " + count);
+                        stuff.push(count);
                     }
+
+                    r.piechart(600, 100, 75, stuff);
                 }
             });
         }
@@ -64,7 +75,7 @@
                 $timer_button.val('Start');
             } else {
                 process_record();
-                timer = window.setInterval('process_record()', 50);
+                timer = window.setInterval('process_record()', 250);
                 timer_active = true;
                 $timer_button.val('Stop');
             }
