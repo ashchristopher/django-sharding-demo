@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'clean',
+    'gunicorn',
     'profiles',
     'records',
     'accounts',
