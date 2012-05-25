@@ -5,7 +5,7 @@
     <div>
         <form id='main-form' action='{% url main-ajax %}' method='post'>
             {% csrf_token %}
-            <input id='main-form-button' type='submit' value='Process'>
+            <input id='main-form-button' type='submit' value='Start'>
         </form>
     </div>
     
@@ -35,9 +35,12 @@
     <script>
         var $form = $('#main-form');
         var $business_input = $('#id-business');
-        var the_data;
-        $('#main-form-button').click(function(e){
-            e.preventDefault();
+        var $timer_button = $('#main-form-button');
+        var timer;
+        var timer_active = false;
+
+        function process_record() {
+            console.log('processing record');
             var business_id = random_item(business_ids);
             $.ajax({
                 url: $form.attr('action'),
@@ -50,6 +53,21 @@
                     }
                 }
             });
+        }
+
+        $('#main-form-button').click(function(e){
+            e.preventDefault();
+
+            if (timer_active) {
+                window.clearInterval(timer);
+                timer_active = false;
+                $timer_button.val('Start');
+            } else {
+                process_record();
+                timer = window.setInterval('process_record()', 50);
+                timer_active = true;
+                $timer_button.val('Stop');
+            }
         });
 
         $('.toggle-info').click(function(e){
