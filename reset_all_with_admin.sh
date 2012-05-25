@@ -28,4 +28,6 @@ python manage.py syncdb --noinput --database=shard1
 echo
 echo "--- syncing shard2 ---"
 python manage.py syncdb --noinput --database=shard2
-
+echo
+echo "Creating superuser"
+python manage.py createsuperuser --username=admin --email=admin@example.com 

@@ -8,6 +8,7 @@
             <input id='main-form-button' type='submit' value='Start'>
         </form>
     </div>
+    </div>
     
     {% for shard in shards %}
         <div class='shard-info'>
@@ -39,13 +40,6 @@
         var timer;
         var timer_active = false;
 
-        var r = Raphael(200, 0, 1024, 768);
-        // Creates pie chart at with center at 320, 200,
-        // radius 100 and data: [55, 20, 13, 32, 5, 1, 2]
-        // r.piechart(600, 100, 75, [55, 20, 13, 32, 5, 1, 2]);
-
-
-
         function process_record() {
             console.log('processing record');
             var business_id = random_item(business_ids);
@@ -60,8 +54,9 @@
                         $('#title-' + key).html('logical-' + key + ": " + count);
                         stuff.push(count);
                     }
-
-                    r.piechart(600, 100, 75, stuff);
+                    $('svg').remove();
+                    var r = Raphael(0, 100, 300, 300);
+                    r.piechart(100, 100, 90, stuff);
                 }
             });
         }
@@ -75,7 +70,7 @@
                 $timer_button.val('Start');
             } else {
                 process_record();
-                timer = window.setInterval('process_record()', 250);
+                timer = window.setInterval('process_record()', 100);
                 timer_active = true;
                 $timer_button.val('Stop');
             }
