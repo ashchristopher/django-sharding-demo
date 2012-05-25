@@ -68,7 +68,7 @@
                 $timer_button.val('Start');
             } else {
                 process_record();
-                timer = window.setInterval('process_record()', 100);
+                timer = window.setInterval('process_record()', 20);
                 timer_active = true;
                 $timer_button.val('Stop');
             }
