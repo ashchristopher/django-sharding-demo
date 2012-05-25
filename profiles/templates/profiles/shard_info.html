@@ -4,6 +4,7 @@
 {% block content %}
 <h1>{{ shard }}</h1>
 <a href='{% url main %}'>Back</a>
+<hr>
 <div>
     {% if shard_records.has_previous %}
         <a href="?page={{ shard_records.previous_page_number }}">previous</a>
