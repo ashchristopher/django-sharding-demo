@@ -39,7 +39,6 @@
         var timer_active = false;
 
         function process_record() {
-            console.log('processing record');
             var business_id = random_item(business_ids);
             $.ajax({
                 url: $form.attr('action'),
