@@ -12,10 +12,8 @@
     
     {% for shard in shards %}
         <div class='shard-info'>
-            <h2 id='title-{{ shard }}' >logical-{{ shard }}</h2>
+            <h2 id='title-{{ shard }}' >logical-{{ shard }}: <span></span></h2>
             <a href='{% url info shard %}' class='toggle-info small'>Show More</a>
-            <div id='{{ shard }}'>
-            </div>
         </div>
     {% endfor %}
 
@@ -51,7 +49,7 @@
                     var stuff = [];
                     for (key in data) {
                         var count = data[key];
-                        $('#title-' + key).html('logical-' + key + ": " + count);
+                        $('#title-' + key + " span").html(count);
                         stuff.push(count);
                     }
                     $('svg').remove();
@@ -75,17 +73,6 @@
                 $timer_button.val('Stop');
             }
         });
-
-        $('.toggle-info').click(function(e){
-            e.preventDefault();
-            $.ajax({
-                url: e.target.href,
-                type: 'get',
-                success: function(data, textStatus, jqXHR) {
-                    console.log('loaded');
-                }
-            });
-        })
 
     </script>
 {% endblock %}

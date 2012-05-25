@@ -4,6 +4,7 @@ from decimal import Decimal
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from profiles.models import Business
 from profiles.mixins import JSONResponseMixin
@@ -56,14 +57,27 @@ class AjaxMainView(JSONResponseMixin, MainView):
         return self.render_to_response(context) 
 
 
-class InfoAjaxView(TemplateView):
+class ShardInfoView(TemplateView):
     template_name = 'profiles/shard_info.html'
 
     def get(self, request, shard_id):
-        recs = Record.objects.using(shard_id).all()
-        
+        records = Record.objects.using(shard_id).all()
+        page = request.GET.get('page', 1)
+
+        paginator = Paginator(records, 100)
+
+        try:
+            recs = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            recs = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            recs = paginator.page(paginator.num_pages)
+
         context = {
-            'shard_records' : [1,2],
+            'shard' : shard_id,
+            'shard_records' : recs,
         }
 
         return self.render_to_response(context)

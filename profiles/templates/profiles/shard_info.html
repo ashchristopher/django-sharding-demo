@@ -1,5 +1,55 @@
-{% for shard_record in shard_records %}
-<li>
-    
-</li>
-{% endfor %}
+{% extends 'profiles/base.html' %}
+
+
+{% block content %}
+<h1>{{ shard }}</h1>
+<a href='{% url main %}'>Back</a>
+<div>
+    {% if shard_records.has_previous %}
+        <a href="?page={{ shard_records.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+        Page {{ shard_records.number }} of {{ shard_records.paginator.num_pages }}.
+    </span>
+
+    {% if shard_records.has_next %}
+        <a href="?page={{ shard_records.next_page_number }}">next</a>
+    {% endif %}
+</div>
+
+<table border="2">
+    <tr>
+        <th>ID</th>
+        <th>Business ID</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total</th>
+    </tr>
+    {% for record in shard_records.object_list %}
+    <tr>
+        <td>{{ record.pk }}</td>
+        <td>{{ record.business_id }}</td>
+        <td>{{ record.record_type|upper }}</td>
+        <td>{{ record.quantity }}</td>
+        <td>{{ record.amount|floatformat:2 }}</td>
+        <td>{{ record.total|floatformat:2 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div>
+    {% if shard_records.has_previous %}
+        <a href="?page={{ shard_records.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+        Page {{ shard_records.number }} of {{ shard_records.paginator.num_pages }}.
+    </span>
+
+    {% if shard_records.has_next %}
+        <a href="?page={{ shard_records.next_page_number }}">next</a>
+    {% endif %}
+</div>
+{% endblock content %}

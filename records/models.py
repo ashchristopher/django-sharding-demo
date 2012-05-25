@@ -13,6 +13,13 @@ class Record(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
+    def _total(self):
+        return self.quantity * self.amount
+
+    @property
+    def total(self):
+        return self._total()
+
     def to_dict(self):
         return {
             'pk' : self.pk, 
